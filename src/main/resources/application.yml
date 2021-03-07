@@ -1,0 +1,11 @@
+server:
+  servlet:
+    context-path: /cat-client
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+spring:
+  profiles:
+    active: local

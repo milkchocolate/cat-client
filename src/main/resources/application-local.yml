@@ -1,0 +1,19 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          cat-client:
+            client-id: cat-client
+            client-secret: 7bf9882e-452f-4d26-985e-d940c028f35c
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/cat-client"
+            scope: profile
+        provider:
+          cat-client:
+            authorization-uri: http://keycloak.cat.local/auth/realms/master/protocol/openid-connect/auth
+            token-uri: http://keycloak.cat.local/auth/realms/master/protocol/openid-connect/token
+            user-info-uri: http://keycloak.cat.local/auth/realms/master/protocol/openid-connect/userinfo
+            user-name-attribute: preferred_username
+cat-server:
+  url: http://localhost/cat-server
