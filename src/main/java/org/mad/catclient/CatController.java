@@ -24,6 +24,18 @@ public class CatController {
         this.authorizedClientService = authorizedClientService;
     }
 
+    @GetMapping("/counter")
+    public Object getCounter(OAuth2AuthenticationToken oAuth2AuthenticationToken) {
+        logTokens(oAuth2AuthenticationToken);
+        return Objects.requireNonNull(webClient
+                .get()
+                .uri("/counter")
+                .retrieve()
+                .toEntity(Object.class)
+                .block())
+                .getBody();
+    }
+
     @GetMapping("/cats")
     public List<Cat> getItems(OAuth2AuthenticationToken oAuth2AuthenticationToken) {
         logTokens(oAuth2AuthenticationToken);
