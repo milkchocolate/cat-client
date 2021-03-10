@@ -1,6 +1,12 @@
 server:
   servlet:
     context-path: /cat-client
+  error:
+    whitelabel:
+      enabled: false
+    include-exception: true
+    include-stacktrace: always
+
 management:
   endpoints:
     web:
@@ -9,3 +15,20 @@ management:
 spring:
   profiles:
     active: local
+  security:
+    oauth2:
+      client:
+        registration:
+          cat-client:
+            client-id: cat-client
+            client-authentication-method: none
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/cat-client"
+            scope: profile
+        provider:
+          cat-client:
+            authorization-uri: http://host.docker.internal:11001/auth/realms/master/protocol/openid-connect/auth
+            token-uri: http://host.docker.internal:11001/auth/realms/master/protocol/openid-connect/token
+            user-info-uri: http://host.docker.internal:11001/auth/realms/master/protocol/openid-connect/userinfo
+            user-name-attribute: preferred_username
+
