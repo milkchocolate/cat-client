@@ -21,7 +21,20 @@ spring:
         registration:
           cat-client:
             client-id: cat-client
-            client-authentication-method: none
+
+#            Spring OAuth2 PKCE trigger:
+#            1. client-secret is omitted (or empty)
+#            2. client-authentication-method is set to "none" (ClientAuthenticationMethod.NONE)
+#            By applying the settings, when exchanging an access token with a refresh token,
+#            the request won't have the Authorization header.
+
+#            Keycloak always needs client id in Authorization header even with PKCE
+
+#            client-secret is omitted (or empty) and the method is basic,
+#            Spring OAuth2 client uses code flow without PKCE. Keycloak
+#            When the client is set to Public in Keycloak, Keycloak token endpoint doesn't check the client-secret.
+            client-authentication-method: basic
+
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/cat-client"
             scope: profile
