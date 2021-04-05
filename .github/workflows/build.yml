@@ -23,3 +23,18 @@ jobs:
 
       - name: Push Image
         run: docker push aaronyunan/cat-client:${{github.run_number}}
+
+      - name: Build helm values file
+      - run: ./auto/generate-helm-values-file.sh ${{github.run_number}}
+
+      - name: Release
+      - uses: seanmiddleditch/gha-publish-to-git@master
+        with:
+          repository: https://github.com/milkchocolate/cat-home
+          branch: master
+          github_token: '${{ secrets.GITHUB_TOKEN  }}'
+#          github_pat: '${{ secrets.GH_PAT }}'
+          source_folder: helm/values.yaml
+          target_folder: cat-client/values.yaml
+          commit_author: GitOps Robot
+        if: success() && github.event == 'push'
